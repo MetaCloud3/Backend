@@ -1,6 +1,6 @@
 ---
 name: 새로운 ISSUE
-about: "\b새로운 ISSUE를 생성합니다."
+about: "새로운 ISSUE를 생성합니다."
 title: ''
 labels: ''
 assignees: ''
