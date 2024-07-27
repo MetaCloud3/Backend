@@ -2,8 +2,8 @@ package com.meta.cloud.oauth2;
 
 import com.meta.cloud.entity.User;
 import com.meta.cloud.repository.UserRepository;
-import com.meta.cloud.user.OAuth2UserInfo;
-import com.meta.cloud.user.OAuth2UserInfoFactory;
+import com.meta.cloud.oauth2.user.OAuth2UserInfo;
+import com.meta.cloud.oauth2.user.OAuth2UserInfoFactory;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
