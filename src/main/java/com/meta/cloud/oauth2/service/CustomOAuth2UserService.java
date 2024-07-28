@@ -1,9 +1,10 @@
-package com.meta.cloud.oauth2;
+package com.meta.cloud.oauth2.service;
 
-import com.meta.cloud.entity.User;
+import com.meta.cloud.domain.entity.User;
 import com.meta.cloud.repository.UserRepository;
 import com.meta.cloud.oauth2.user.OAuth2UserInfo;
 import com.meta.cloud.oauth2.user.OAuth2UserInfoFactory;
+import com.meta.cloud.oauth2.service.OAuth2UserPrincipal;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -30,15 +31,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 oAuth2User.getAttributes()
         );
 
-        if(oAuth2UserInfo.getEmail().isEmpty()) {
+        if (oAuth2UserInfo.getEmail().isEmpty()) {
             throw new OAuth2AuthenticationException("Email not found from OAuth2 provider");
         }
 
         Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
         User user;
-        if(userOptional.isPresent()) {
+        if (userOptional.isPresent()) {
             user = userOptional.get();
-            if(!user.getProvider().equals(oAuth2UserRequest.getClientRegistration().getRegistrationId())) {
+            if (!user.getProvider().equals(oAuth2UserRequest.getClientRegistration().getRegistrationId())) {
                 throw new OAuth2AuthenticationException("Looks like you're signed up with a different provider.");
             }
             user = updateExistingUser(user, oAuth2UserInfo);
@@ -46,7 +47,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
 
-        return user;
+        return OAuth2UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {

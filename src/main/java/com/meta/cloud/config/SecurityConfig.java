@@ -1,8 +1,8 @@
 package com.meta.cloud.config;
 
-import com.meta.cloud.oauth2.CustomOAuth2UserService;
-import com.meta.cloud.oauth2.OAuth2AuthenticationFailureHandler;
-import com.meta.cloud.oauth2.OAuth2AuthenticationSuccessHandler;
+import com.meta.cloud.oauth2.service.CustomOAuth2UserService;
+import com.meta.cloud.oauth2.handler.OAuth2AuthenticationFailureHandler;
+import com.meta.cloud.oauth2.handler.OAuth2AuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,17 +32,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .antMatchers("/login", "/oauth2/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .oauth2Login()
-                .loginPage("/login")
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService)
-                .and()
-                .successHandler(oAuth2AuthenticationSuccessHandler)
-                .failureHandler(oAuth2AuthenticationFailureHandler);
+                .authorizeHttpRequests(authorizeRequests ->
+                        authorizeRequests
+                                .requestMatchers("/login", "/oauth2/**").permitAll()
+                                .anyRequest().authenticated()
+                )
+                .oauth2Login(oauth2Login ->
+                        oauth2Login
+                                .loginPage("/login")
+                                .userInfoEndpoint(userInfoEndpoint ->
+                                        userInfoEndpoint.userService(customOAuth2UserService)
+                                )
+                                .successHandler(oAuth2AuthenticationSuccessHandler)
+                                .failureHandler(oAuth2AuthenticationFailureHandler)
+                );
         return http.build();
     }
 

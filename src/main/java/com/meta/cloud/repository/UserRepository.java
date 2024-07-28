@@ -1,6 +1,6 @@
 package com.meta.cloud.repository;
 
-import com.meta.cloud.entity.User;
+import com.meta.cloud.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
