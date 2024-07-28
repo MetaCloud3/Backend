@@ -1,5 +1,8 @@
 package com.meta.cloud.config;
 
+import com.meta.cloud.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,7 +13,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class AuthenticationConfig {
+
+    private final UserService userService;
+
+    @Value("${jwt.secret}")
+    private String secretKey;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -22,7 +31,8 @@ public class AuthenticationConfig {
                         .requestMatchers("/api/user/login", "/api/user/join").permitAll()
                         .anyRequest().authenticated()
                 )
-//                .addFilterBefore(new JwtFilter(userService, secretKey), UsernamePasswordAuthenticationFilter.class)
+                // JwtFilter: HTTP 요청 헤더에서 JWT를 추출하고, 해당 JWT를 검증하여 사용자 인증 정보를 SecurityContextHolder에 저장
+                .addFilterBefore(new JwtFilter(userService, secretKey), UsernamePasswordAuthenticationFilter.class)
                 .build();
 
     }
