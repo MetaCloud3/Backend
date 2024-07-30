@@ -39,9 +39,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
-            if (!user.getProvider().equals(oAuth2UserRequest.getClientRegistration().getRegistrationId())) {
-                throw new OAuth2AuthenticationException("Looks like you're signed up with a different provider.");
-            }
             user = updateExistingUser(user, oAuth2UserInfo);
         } else {
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
@@ -51,19 +48,32 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-        User user = new User();
+        User user = User.builder()
+                .loginId(oAuth2UserInfo.getId())
+                .loginPw("default_password") // OAuth2 로그인에서는 비밀번호를 사용하지 않으므로 기본값 설정
+                .name(oAuth2UserInfo.getName())
+                .email(oAuth2UserInfo.getEmail())
+                .totalStorage(100) // 예시: 기본 총 용량 설정
+                .usedStorage(0) // 예시: 초기 사용 용량 설정
+                .createdAt(java.time.Instant.now().toString())
+                .updatedAt(java.time.Instant.now().toString())
+                .build();
 
-        user.setProvider(oAuth2UserRequest.getClientRegistration().getRegistrationId());
-        user.setProviderId(oAuth2UserInfo.getId());
-        user.setName(oAuth2UserInfo.getName());
-        user.setEmail(oAuth2UserInfo.getEmail());
-        user.setImageUrl(oAuth2UserInfo.getImageUrl());
         return userRepository.save(user);
     }
 
     private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
-        existingUser.setName(oAuth2UserInfo.getName());
-        existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
+        existingUser = User.builder()
+                .loginId(existingUser.getLoginId())
+                .loginPw(existingUser.getLoginPw())
+                .name(oAuth2UserInfo.getName())
+                .email(existingUser.getEmail())
+                .totalStorage(existingUser.getTotalStorage())
+                .usedStorage(existingUser.getUsedStorage())
+                .createdAt(existingUser.getCreatedAt())
+                .updatedAt(java.time.Instant.now().toString())
+                .build();
+
         return userRepository.save(existingUser);
     }
 }
