@@ -11,10 +11,10 @@ import java.util.Date;
 public class JwtUtil {
 
     // Jwt 생성
-    public static String createJwt(String username, String secretKey, Long expiredMs) {
+    public static String createJwt(String loginId, String secretKey, Long expiredMs) {
 
         Claims claims = Jwts.claims();
-        claims.put("username", username);
+        claims.put("loginId", loginId);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -36,12 +36,12 @@ public class JwtUtil {
     }
 
     // 토큰에서 username을 꺼내기
-    public static String getUsername(String token, String secretKey) {
+    public static String getLoginId(String token, String secretKey) {
         return Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
-                .get("username", String.class);
+                .get("loginId", String.class);
     }
 }

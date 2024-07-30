@@ -1,6 +1,5 @@
 package com.meta.cloud.config;
 
-import com.meta.cloud.service.UserService;
 import com.meta.cloud.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,9 +21,7 @@ import java.util.List;
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final UserService userService;
     private final String secretKey;
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -38,7 +35,6 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        //Bearer 빼고 token 꺼내기
         String token = authorization.split(" ")[1];
 
         //Token 만료되었는지 여부
@@ -48,14 +44,13 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        String username = JwtUtil.getUsername(token, secretKey);
-        log.info("username : {}", username);
+        String loginId = JwtUtil.getLoginId(token, secretKey);
+        log.info("loginId : {}", loginId);
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(username, null, List.of(new SimpleGrantedAuthority("USER")));
+                new UsernamePasswordAuthenticationToken(loginId, null, List.of(new SimpleGrantedAuthority("USER")));
 
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         filterChain.doFilter(request, response);
