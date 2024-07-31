@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,7 @@ public class User {
     private String updatedAt;
 
     @Builder
-    public User(String loginId, String loginPw, String name, String email, Integer totalStorage, Integer usedStorage, String createdAt, String updatedAt) {
+    public Users(String loginId, String loginPw, String name, String email, Integer totalStorage, Integer usedStorage, String createdAt, String updatedAt) {
         this.loginId = loginId;
         this.loginPw = loginPw;
         this.name = name;

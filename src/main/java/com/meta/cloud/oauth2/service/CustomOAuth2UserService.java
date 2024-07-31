@@ -1,10 +1,9 @@
 package com.meta.cloud.oauth2.service;
 
-import com.meta.cloud.domain.entity.User;
+import com.meta.cloud.domain.entity.Users;
 import com.meta.cloud.repository.UserRepository;
 import com.meta.cloud.oauth2.user.OAuth2UserInfo;
 import com.meta.cloud.oauth2.user.OAuth2UserInfoFactory;
-import com.meta.cloud.oauth2.service.OAuth2UserPrincipal;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -35,8 +34,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationException("Email not found from OAuth2 provider");
         }
 
-        Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
-        User user;
+        Optional<Users> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
+        Users user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
             user = updateExistingUser(user, oAuth2UserInfo);
@@ -47,8 +46,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return OAuth2UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
-    private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-        User user = User.builder()
+    private Users registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
+        Users user = Users.builder()
                 .loginId(oAuth2UserInfo.getId())
                 .loginPw("default_password") // OAuth2 로그인에서는 비밀번호를 사용하지 않으므로 기본값 설정
                 .name(oAuth2UserInfo.getName())
@@ -62,8 +61,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return userRepository.save(user);
     }
 
-    private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
-        existingUser = User.builder()
+    private Users updateExistingUser(Users existingUser, OAuth2UserInfo oAuth2UserInfo) {
+        existingUser = Users.builder()
                 .loginId(existingUser.getLoginId())
                 .loginPw(existingUser.getLoginPw())
                 .name(oAuth2UserInfo.getName())

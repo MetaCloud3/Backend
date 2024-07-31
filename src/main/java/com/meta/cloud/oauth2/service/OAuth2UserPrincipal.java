@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.meta.cloud.domain.entity.User;
+import com.meta.cloud.domain.entity.Users;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -31,7 +31,7 @@ public class OAuth2UserPrincipal implements OAuth2User, UserDetails {
         this.attributes = attributes;
     }
 
-    public static OAuth2UserPrincipal create(User user) {
+    public static OAuth2UserPrincipal create(Users user) {
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
         return OAuth2UserPrincipal.builder()
@@ -43,7 +43,7 @@ public class OAuth2UserPrincipal implements OAuth2User, UserDetails {
                 .build();
     }
 
-    public static OAuth2UserPrincipal create(User user, Map<String, Object> attributes) {
+    public static OAuth2UserPrincipal create(Users user, Map<String, Object> attributes) {
         return OAuth2UserPrincipal.builder()
                 .userId(user.getUserId())
                 .email(user.getEmail())
