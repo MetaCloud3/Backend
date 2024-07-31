@@ -7,9 +7,9 @@ import java.util.UUID;
 @Data
 public class JoinResponse {
 
-    private UUID loginId;
+    private UUID userId;
 
-    public JoinResponse(UUID loginId) {
-        this.loginId = loginId;
+    public JoinResponse(UUID userId) {
+        this.userId = userId;
     }
 }
