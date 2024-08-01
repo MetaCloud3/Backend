@@ -6,6 +6,7 @@ import com.meta.cloud.dto.auth.JoinResponse;
 import com.meta.cloud.dto.auth.JwtDto;
 import com.meta.cloud.dto.auth.LoginRequest;
 import com.meta.cloud.exception.auth.AlreadyExistLoginIdException;
+import com.meta.cloud.exception.auth.InvalidCredentialsException;
 import com.meta.cloud.exception.auth.UserNotFoundException;
 import com.meta.cloud.repository.UserRepository;
 import com.meta.cloud.util.JwtUtil;
@@ -42,7 +43,7 @@ public class UserService {
             return new JwtDto("Bearer", JwtUtil.createJwt(loginRequest.getLoginId(), secretKey, expiredMs));
         }
 
-        throw new BadCredentialsException("Invalid credentials");
+        throw new InvalidCredentialsException(ResponseCode.INVALID_CREDENTIALS);
     }
 
     public JoinResponse join(JoinRequest joinRequest) {

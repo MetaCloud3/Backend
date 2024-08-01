@@ -12,6 +12,9 @@ public enum ResponseCode {
     // 400 Bad Request
     BAD_REQUEST(HttpStatus.BAD_REQUEST, false, "잘못된 요청입니다."),
 
+    // 401 Unauthorized
+    INVALID_CREDENTIALS(HttpStatus.UNAUTHORIZED, false, "잘못된 비밀번호입니다."),
+
     // 403 Forbidden
     FORBIDDEN(HttpStatus.FORBIDDEN, false, "권한이 없습니다."),
 
