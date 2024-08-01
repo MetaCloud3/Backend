@@ -19,12 +19,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ApiResponse<?> login(@RequestBody LoginRequest loginRequest) {
-        //전역 예외 처리로 리팩토링 예정
-        try{
-            return ApiResponse.success(userService.login(loginRequest), ResponseCode.USER_LOGIN_SUCCESS.getMessage());
-        } catch (Exception e){
-            return null;
-        }
+        return ApiResponse.success(userService.login(loginRequest), ResponseCode.USER_LOGIN_SUCCESS.getMessage());
     }
 
     @PostMapping("/join")

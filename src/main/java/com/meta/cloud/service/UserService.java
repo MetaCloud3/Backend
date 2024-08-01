@@ -6,13 +6,13 @@ import com.meta.cloud.dto.auth.JoinResponse;
 import com.meta.cloud.dto.auth.JwtDto;
 import com.meta.cloud.dto.auth.LoginRequest;
 import com.meta.cloud.exception.auth.AlreadyExistLoginIdException;
+import com.meta.cloud.exception.auth.UserNotFoundException;
 import com.meta.cloud.repository.UserRepository;
 import com.meta.cloud.util.JwtUtil;
 import com.meta.cloud.util.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +36,7 @@ public class UserService {
     public JwtDto login(LoginRequest loginRequest) {
 
         Users user = userRepository.findByLoginId(loginRequest.getLoginId())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(ResponseCode.USER_NOT_FOUND));
 
         if (passwordEncoder.matches(loginRequest.getLoginPw(), user.getLoginPw())) {
             return new JwtDto("Bearer", JwtUtil.createJwt(loginRequest.getLoginId(), secretKey, expiredMs));
