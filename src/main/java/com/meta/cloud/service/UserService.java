@@ -5,9 +5,10 @@ import com.meta.cloud.dto.auth.JoinRequest;
 import com.meta.cloud.dto.auth.JoinResponse;
 import com.meta.cloud.dto.auth.JwtDto;
 import com.meta.cloud.dto.auth.LoginRequest;
-import com.meta.cloud.exception.AlreadyExistLoginIdException;
+import com.meta.cloud.exception.auth.AlreadyExistLoginIdException;
 import com.meta.cloud.repository.UserRepository;
 import com.meta.cloud.util.JwtUtil;
+import com.meta.cloud.util.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -47,7 +48,7 @@ public class UserService {
     public JoinResponse join(JoinRequest joinRequest) {
 
         if(userRepository.existsByLoginId(joinRequest.getLoginId())){
-            throw new AlreadyExistLoginIdException();
+            throw new AlreadyExistLoginIdException(ResponseCode.USER_ID_ALREADY_EXIST);
         }
 
         Users user = Users.builder()
