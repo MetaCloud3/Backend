@@ -9,11 +9,9 @@ import com.meta.cloud.exception.auth.AlreadyExistLoginIdException;
 import com.meta.cloud.exception.auth.InvalidCredentialsException;
 import com.meta.cloud.exception.auth.UserNotFoundException;
 import com.meta.cloud.repository.UserRepository;
-import com.meta.cloud.util.JwtUtil;
+import com.meta.cloud.config.security.JwtProvider;
 import com.meta.cloud.util.ResponseCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +25,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Value("${jwt.secret}")
-    private String secretKey;
-
-    @Value("${jwt.expired}")
-    private Long expiredMs;
+    private final JwtProvider jwtProvider;
 
     public JwtDto login(LoginRequest loginRequest) {
 
@@ -40,7 +33,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(ResponseCode.USER_NOT_FOUND));
 
         if (passwordEncoder.matches(loginRequest.getLoginPw(), user.getLoginPw())) {
-            return new JwtDto("Bearer", JwtUtil.createJwt(loginRequest.getLoginId(), secretKey, expiredMs));
+            return new JwtDto("Bearer", jwtProvider.createJwt(loginRequest.getLoginId()));
         }
 
         throw new InvalidCredentialsException(ResponseCode.INVALID_CREDENTIALS);

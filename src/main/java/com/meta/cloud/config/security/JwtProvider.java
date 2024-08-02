@@ -1,17 +1,25 @@
-package com.meta.cloud.util;
+package com.meta.cloud.config.security;
 
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import java.util.Date;
 
-public class JwtUtil {
+@Component
+public class JwtProvider {
+
+    @Value("${jwt.secret}")
+    private String secretKey;
+
+    @Value("${jwt.expired}")
+    private Long expiredMs;
 
     // Jwt 생성
-    public static String createJwt(String loginId, String secretKey, Long expiredMs) {
+    public String createJwt(String loginId) {
 
         Claims claims = Jwts.claims();
         claims.put("loginId", loginId);

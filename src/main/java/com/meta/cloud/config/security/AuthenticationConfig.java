@@ -1,6 +1,5 @@
-package com.meta.cloud.config;
+package com.meta.cloud.config.security;
 
-import com.meta.cloud.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,5 @@
-package com.meta.cloud.config;
+package com.meta.cloud.config.security;
 
-import com.meta.cloud.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,13 +37,13 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = authorization.split(" ")[1];
 
         //Token 만료되었는지 여부
-        if (JwtUtil.isExpired(token, secretKey)) {
+        if (JwtProvider.isExpired(token, secretKey)) {
             log.error("Jwt token expired");
             filterChain.doFilter(request, response);
             return;
         }
 
-        String loginId = JwtUtil.getLoginId(token, secretKey);
+        String loginId = JwtProvider.getLoginId(token, secretKey);
         log.info("loginId : {}", loginId);
 
         UsernamePasswordAuthenticationToken authenticationToken =
