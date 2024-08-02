@@ -8,6 +8,7 @@ import com.meta.cloud.util.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,12 +19,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ApiResponse<?> login(@RequestBody LoginRequest loginRequest) {
+    public ApiResponse<?> login(@RequestBody @Validated LoginRequest loginRequest) {
         return ApiResponse.success(userService.login(loginRequest), ResponseCode.USER_LOGIN_SUCCESS.getMessage());
     }
 
     @PostMapping("/join")
-    public ApiResponse<?> join(@RequestBody JoinRequest joinRequest) {
+    public ApiResponse<?> join(@RequestBody @Validated JoinRequest joinRequest) {
         return ApiResponse.success(userService.join(joinRequest), ResponseCode.USER_CREATE_SUCCESS.getMessage());
     }
 

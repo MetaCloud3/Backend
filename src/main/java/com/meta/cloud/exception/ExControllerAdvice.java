@@ -5,6 +5,9 @@ import com.meta.cloud.exception.auth.InvalidCredentialsException;
 import com.meta.cloud.exception.auth.InvalidJwtTokenException;
 import com.meta.cloud.exception.auth.UserNotFoundException;
 import com.meta.cloud.util.ApiResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -33,5 +36,11 @@ public class ExControllerAdvice {
     @ExceptionHandler(InvalidJwtTokenException.class)
     public ApiResponse<Void> invalidJwtTokenException(InvalidJwtTokenException e) {
         return ApiResponse.fail(e.getResponseCode(), null);
+    }
+
+    //dto @Validated 핸들링
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ApiResponse<Void> methodArgumentNotValidException(MethodArgumentNotValidException e) {
+        return ApiResponse.fail(e.getBindingResult().getFieldErrors().get(0).getDefaultMessage(), null);
     }
 }
