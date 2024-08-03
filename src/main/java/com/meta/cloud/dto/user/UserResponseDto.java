@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 public class UserResponseDto {
     private String id;
     private String loginId;
-    private String loginPw;
     private String name;
     private String email;
     private Integer totalStorage;
@@ -25,7 +24,6 @@ public class UserResponseDto {
         return UserResponseDto.builder()
                 .id(entity.getId())
                 .loginId(entity.getLoginId())
-                .loginPw(entity.getLoginPw())
                 .name(entity.getName())
                 .email(entity.getEmail())
                 .totalStorage(entity.getTotalStorage())
