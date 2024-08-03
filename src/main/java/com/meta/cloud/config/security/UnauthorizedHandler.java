@@ -1,7 +1,7 @@
 package com.meta.cloud.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.meta.cloud.util.ApiResponse;
+import com.meta.cloud.util.api.ApiResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
