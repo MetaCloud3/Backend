@@ -26,7 +26,7 @@ public class ApiResponse<T> {
         return new ApiResponse<T>(new ApiHeader(responseCode.getHttpStatusCode(), "FAIL"), data, responseCode.getMessage());
     }
 
-    public static <T> ApiResponse<T> fail(String message, T data) {
-        return new ApiResponse<T>(new ApiHeader(HttpStatus.BAD_REQUEST.value(), "FAIL"), data, message);
+    public static <T> ApiResponse<T> fail(int code, String message, T data) {
+        return new ApiResponse<T>(new ApiHeader(code, "FAIL"), data, message);
     }
 }

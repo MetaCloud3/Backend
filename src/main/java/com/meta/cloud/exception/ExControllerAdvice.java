@@ -41,6 +41,6 @@ public class ExControllerAdvice {
     //dto @Validated 핸들링
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ApiResponse<Void> methodArgumentNotValidException(MethodArgumentNotValidException e) {
-        return ApiResponse.fail(e.getBindingResult().getFieldErrors().get(0).getDefaultMessage(), null);
+        return ApiResponse.fail(HttpStatus.BAD_REQUEST.value(), e.getBindingResult().getFieldErrors().get(0).getDefaultMessage(), null);
     }
 }
