@@ -1,4 +1,4 @@
-package com.meta.cloud.util;
+package com.meta.cloud.util.api;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

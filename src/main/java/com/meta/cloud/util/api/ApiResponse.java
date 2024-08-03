@@ -1,14 +1,16 @@
-package com.meta.cloud.util;
+package com.meta.cloud.util.api;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
 public class ApiResponse<T> {
 
-    private ApiHeader header;
+    private final ApiHeader header;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
-    private String message;
+    private final String message;
 
     private static final int SUCCESS = 200;
 
