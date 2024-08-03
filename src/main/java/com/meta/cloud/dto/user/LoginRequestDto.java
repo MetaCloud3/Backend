@@ -1,10 +1,10 @@
-package com.meta.cloud.dto.auth;
+package com.meta.cloud.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-public class LoginRequest {
+@Getter
+public class LoginRequestDto {
 
     @NotBlank(message = "아이디를 입력해주세요.")
     private String loginId;
