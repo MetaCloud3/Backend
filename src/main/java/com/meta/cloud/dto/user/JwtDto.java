@@ -1,8 +1,8 @@
-package com.meta.cloud.dto.auth;
+package com.meta.cloud.dto.user;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class JwtDto {
 
     private String tokenType;

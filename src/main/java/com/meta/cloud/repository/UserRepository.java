@@ -1,13 +1,12 @@
 package com.meta.cloud.repository;
 
-import com.meta.cloud.domain.Users;
+import com.meta.cloud.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface UserRepository extends JpaRepository<Users, UUID> {
+public interface UserRepository extends JpaRepository<User, String> {
 
-    Optional<Users> findByLoginId(String loginId);
+    Optional<User> findByLoginId(String loginId);
     boolean existsByLoginId(String loginId);
 }

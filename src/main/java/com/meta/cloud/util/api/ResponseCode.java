@@ -1,4 +1,4 @@
-package com.meta.cloud.util;
+package com.meta.cloud.util.api;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,6 +14,8 @@ public enum ResponseCode {
 
     // 401 Unauthorized
     INVALID_CREDENTIALS(HttpStatus.UNAUTHORIZED, false, "잘못된 비밀번호입니다."),
+    INVALID_JWT_TOKEN(HttpStatus.UNAUTHORIZED, false, "유효하지 않는 토큰입니다."),
+    EXPIRED_JWT_TOKEN(HttpStatus.UNAUTHORIZED, false, "만료된 토큰입니다."),
 
     // 403 Forbidden
     FORBIDDEN(HttpStatus.FORBIDDEN, false, "권한이 없습니다."),
