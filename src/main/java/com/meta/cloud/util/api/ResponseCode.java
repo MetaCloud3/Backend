@@ -31,6 +31,7 @@ public enum ResponseCode {
 
     // 500 Internal Server Error
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, "서버에 오류가 발생하였습니다."),
+    FILE_STORE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, "파일 저장 중 오류가 발생하였습니다."),
 
     // 200 OK
     USER_READ_SUCCESS(HttpStatus.OK, true, "사용자 정보 조회 성공"),
