@@ -27,7 +27,8 @@ public class AuthenticationConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/user/login", "/api/user/join").permitAll()
+//                        .requestMatchers("/api/user/login", "/api/user/join").permitAll()
+                        .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 // JwtFilter: HTTP 요청 헤더에서 JWT를 추출하고, 해당 JWT를 검증하여 사용자 인증 정보를 SecurityContextHolder에 저장
