@@ -15,6 +15,12 @@ public class GlobalExceptionHandler {
         return ApiResponse.fail(e.getCode(), null);
     }
 
+    // 파일 관련 Error
+    @ExceptionHandler(FileStoreException.class)
+    public ApiResponse<Void> fileStoreException(FileStoreException e) {
+        return ApiResponse.fail(e.getCode(), null);
+    }
+
     //dto @Validated 핸들링
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ApiResponse<Void> methodArgumentNotValidException(MethodArgumentNotValidException e) {
