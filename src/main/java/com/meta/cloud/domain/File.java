@@ -15,7 +15,8 @@ import java.util.UUID;
 public class File {
     @Id
     private String id;
-    private String name;
+    private String uploadFileName;
+    private String storeFileName;
     @Enumerated(EnumType.STRING)
     private FileType type;
     private Long size;
@@ -25,8 +26,9 @@ public class File {
     private LocalDateTime uploadedAt;
 
     @Builder
-    public File(String name, FileType type, Long size, String path) {
-        this.name = name;
+    public File(String uploadFileName, String storeFileName, FileType type, Long size, String path) {
+        this.uploadFileName = uploadFileName;
+        this.storeFileName = storeFileName;
         this.type = type;
         this.size = size;
         this.path = path;
