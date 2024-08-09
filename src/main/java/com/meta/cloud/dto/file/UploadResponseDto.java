@@ -2,13 +2,10 @@ package com.meta.cloud.dto.file;
 
 import com.meta.cloud.domain.File;
 import com.meta.cloud.domain.FileType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
