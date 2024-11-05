@@ -37,9 +37,12 @@ public enum ResponseCode {
     USER_READ_SUCCESS(HttpStatus.OK, true, "사용자 정보 조회 성공"),
     USER_UPDATE_SUCCESS(HttpStatus.OK, true, "사용자 정보 수정 성공"),
     USER_LOGIN_SUCCESS(HttpStatus.OK, true, "사용자 로그인 성공"),
+    FILE_LIST_SUCCESS(HttpStatus.OK, true, "파일 리스트 불러오기 성공"),
+
 
     // 201 Created
-    USER_CREATE_SUCCESS(HttpStatus.CREATED, true, "사용자 생성 성공");
+    USER_CREATE_SUCCESS(HttpStatus.CREATED, true, "사용자 생성 성공"),
+    FILE_UPLOAD_SUCCESS(HttpStatus.CREATED, true, "파일 업로드 성공");
 
     private final HttpStatus httpStatus;
     private final Boolean success;

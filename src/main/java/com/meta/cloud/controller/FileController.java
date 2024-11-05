@@ -1,5 +1,7 @@
 package com.meta.cloud.controller;
 
+import com.meta.cloud.domain.File;
+import com.meta.cloud.dto.file.ListResponseDto;
 import com.meta.cloud.dto.file.UploadResponseDto;
 import com.meta.cloud.service.FileService;
 import com.meta.cloud.util.api.ApiResponse;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/file")
@@ -22,10 +25,15 @@ public class FileController {
 
     @PostMapping("/upload")
     public ApiResponse<UploadResponseDto> upload(@RequestParam("file") MultipartFile file, Authentication authentication) {
-        return ApiResponse.success(fileService.upload(file, authentication.getName()), ResponseCode.USER_CREATE_SUCCESS.getMessage());
+        return ApiResponse.success(fileService.upload(file, authentication.getName()), ResponseCode.FILE_UPLOAD_SUCCESS.getMessage());
     }
 
 //    @PostMapping("/download")
 //    public
+
+    @GetMapping("/list")
+    public ApiResponse<List<ListResponseDto>> list(Authentication authentication) {
+        return ApiResponse.success(fileService.findByUserId(authentication.getName()), ResponseCode.FILE_LIST_SUCCESS.getMessage());
+    }
 
 }

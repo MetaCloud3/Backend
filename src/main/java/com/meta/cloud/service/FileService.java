@@ -2,6 +2,7 @@ package com.meta.cloud.service;
 
 import com.meta.cloud.domain.File;
 import com.meta.cloud.domain.User;
+import com.meta.cloud.dto.file.ListResponseDto;
 import com.meta.cloud.dto.file.UploadResponseDto;
 import com.meta.cloud.exception.UserException;
 import com.meta.cloud.repository.FileRepository;
@@ -12,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -35,7 +39,10 @@ public class FileService {
     }
 
     @Transactional(readOnly = true)
-    public File findById(String id) {
-        return fileRepository.findById(id).orElse(null);
+    public List<ListResponseDto> findByUserId(String id) {
+        List<File> files = fileRepository.findByUser_Id(id);
+        return files.stream()
+                .map(file -> new ListResponseDto().toDto(file))
+                .collect(Collectors.toList());
     }
 }
