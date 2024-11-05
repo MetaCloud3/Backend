@@ -25,13 +25,18 @@ public class File {
     @CreatedDate
     private LocalDateTime uploadedAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Builder
-    public File(String uploadFileName, String storeFileName, FileType type, Long size, String path) {
+    public File(String uploadFileName, String storeFileName, FileType type, Long size, String path, User user) {
         this.uploadFileName = uploadFileName;
         this.storeFileName = storeFileName;
         this.type = type;
         this.size = size;
         this.path = path;
+        this.user = user;
         this.downloaded = 0;
         this.uploadedAt = LocalDateTime.now();
     }

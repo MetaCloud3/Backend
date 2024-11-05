@@ -25,7 +25,7 @@ public class UserService {
         User user = userRepository.findByLoginId(loginRequestDto.getLoginId())
                 .orElseThrow(() -> new UserException(ResponseCode.USER_NOT_FOUND));
         if (passwordEncoder.matches(loginRequestDto.getLoginPw(), user.getLoginPw())) {
-            return new JwtDto("Bearer", jwtProvider.createJwt(loginRequestDto.getLoginId()));
+            return new JwtDto("Bearer", jwtProvider.createJwt(user.getId()));
         }
         throw new UserException(ResponseCode.INVALID_CREDENTIALS);
     }

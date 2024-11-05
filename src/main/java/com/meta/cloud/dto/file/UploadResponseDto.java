@@ -2,6 +2,7 @@ package com.meta.cloud.dto.file;
 
 import com.meta.cloud.domain.File;
 import com.meta.cloud.domain.FileType;
+import com.meta.cloud.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class UploadResponseDto {
     private FileType type;
     private Long size;
     private String path;
+    private User user;
     private Integer downloaded;
     private LocalDateTime uploadedAt;
 
@@ -31,6 +33,7 @@ public class UploadResponseDto {
                 .type(entity.getType())
                 .size(entity.getSize())
                 .path(entity.getPath())
+                .user(entity.getUser())
                 .downloaded(entity.getDownloaded())
                 .uploadedAt(entity.getUploadedAt())
                 .build();

@@ -2,6 +2,7 @@ package com.meta.cloud.util;
 
 import com.meta.cloud.domain.File;
 import com.meta.cloud.domain.FileType;
+import com.meta.cloud.domain.User;
 import com.meta.cloud.exception.FileStoreException;
 import com.meta.cloud.util.api.ResponseCode;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +22,7 @@ public class S3BucketUtil {
     private String fileDir;
 
     //파일 로컬에 저장 -> s3 저장으로 교체 예정
-    public File storeFile(MultipartFile multipartFile) {
+    public File storeFile(MultipartFile multipartFile, User user) {
         if(multipartFile.isEmpty()) {
             return null;
         }
@@ -32,7 +33,7 @@ public class S3BucketUtil {
         } catch (IOException e) {
             throw new FileStoreException(ResponseCode.FILE_STORE_ERROR);
         }
-        return new File(uploadFileName, storeFileName, getFileType(multipartFile.getContentType()), multipartFile.getSize(), fileDir);
+        return new File(uploadFileName, storeFileName, getFileType(multipartFile.getContentType()), multipartFile.getSize(), fileDir, user);
     }
 
     //파일 저장 위치(로컬)
