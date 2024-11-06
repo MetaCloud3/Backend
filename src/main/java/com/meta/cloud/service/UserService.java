@@ -45,4 +45,11 @@ public class UserService {
                 () -> new UserException(ResponseCode.USER_NOT_FOUND));
         return new UserResponseDto().toDto(user);
     }
+
+    @Transactional(readOnly = true)
+    public Integer findStorageById(String userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new UserException(ResponseCode.USER_NOT_FOUND));
+        return user.getUsedStorage();
+    }
 }

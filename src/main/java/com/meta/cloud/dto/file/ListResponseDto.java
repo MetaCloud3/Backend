@@ -14,16 +14,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ListResponseDto {
+    private String id;
     private String uploadFileName;
     private FileType type;
     private Long size;
+    private String userId;
     private LocalDateTime uploadedAt;
 
     public ListResponseDto toDto(File entity) {
         return ListResponseDto.builder()
+                .id(entity.getId())
                 .uploadFileName(entity.getUploadFileName())
                 .type(entity.getType())
                 .size(entity.getSize())
+                .userId(entity.getUser().getLoginId())
                 .uploadedAt(entity.getUploadedAt())
                 .build();
     }

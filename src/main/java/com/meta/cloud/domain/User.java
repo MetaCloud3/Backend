@@ -1,5 +1,6 @@
 package com.meta.cloud.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "tb_user")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
     @Id
     private String id;
@@ -44,4 +46,7 @@ public class User {
         this.id = "USER_" + UUID.randomUUID().toString().substring(0, 16);
     }
 
+    public void increaseStorage(Long size) {
+        this.usedStorage += size.intValue();
+    }
 }

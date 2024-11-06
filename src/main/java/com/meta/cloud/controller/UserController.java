@@ -34,6 +34,11 @@ public class UserController {
         return ApiResponse.success(userService.findById(userId), ResponseCode.USER_READ_SUCCESS.getMessage());
     }
 
+    @GetMapping("/size")
+    public ApiResponse<Integer> findStorageById(Authentication authentication) {
+        return ApiResponse.success(userService.findStorageById(authentication.getName()), ResponseCode.USER_READ_SUCCESS.getMessage());
+    }
+
     //Auth 테스트용
     @GetMapping("/info")
     public ApiResponse<?> info(Authentication authentication) {

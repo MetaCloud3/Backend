@@ -34,10 +34,13 @@ public class FileService {
         //파일 실제로 저장 -> s3에 저장으로 교체 예정
         File storedFile = s3BucketUtil.storeFile(file, user);
 
+        user.increaseStorage(file.getSize());
+
         //파일에 대한 메타 데이터 db에 저장
         return new UploadResponseDto().toDto(fileRepository.save(storedFile));
     }
 
+    // 파일 리스트 조회
     @Transactional(readOnly = true)
     public List<ListResponseDto> findByUserId(String id) {
         List<File> files = fileRepository.findByUser_Id(id);
@@ -45,4 +48,5 @@ public class FileService {
                 .map(file -> new ListResponseDto().toDto(file))
                 .collect(Collectors.toList());
     }
+
 }
