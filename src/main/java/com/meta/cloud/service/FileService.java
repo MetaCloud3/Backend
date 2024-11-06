@@ -4,10 +4,13 @@ import com.meta.cloud.domain.File;
 import com.meta.cloud.domain.User;
 import com.meta.cloud.dto.file.ListResponseDto;
 import com.meta.cloud.dto.file.UploadResponseDto;
+import com.meta.cloud.exception.FileDownloadException;
+import com.meta.cloud.exception.FileStoreException;
 import com.meta.cloud.exception.UserException;
 import com.meta.cloud.repository.FileRepository;
 import com.meta.cloud.repository.UserRepository;
 import com.meta.cloud.util.S3BucketUtil;
+import org.springframework.core.io.Resource;
 import com.meta.cloud.util.api.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,4 +52,12 @@ public class FileService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public Resource download(String fileId) {
+        File file = fileRepository.findById(fileId)
+                .orElseThrow(() -> new FileDownloadException(ResponseCode.FILE_STORE_ERROR));
+
+        String filePath = s3BucketUtil.getFullPath(file.getStoreFileName());
+        return s3BucketUtil.loadFileAsResource(filePath, file.getUploadFileName());
+    }
 }
