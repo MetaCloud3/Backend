@@ -47,9 +47,9 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Integer findStorageById(String userId) {
+    public InfoResponseDto userInfo(String userId) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new UserException(ResponseCode.USER_NOT_FOUND));
-        return user.getUsedStorage();
+        return new InfoResponseDto().toDto(user);
     }
 }

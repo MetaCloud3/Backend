@@ -43,6 +43,14 @@ public class FileService {
         return new UploadResponseDto().toDto(fileRepository.save(storedFile));
     }
 
+    @Transactional(readOnly = true)
+    public Resource download(String fileId) {
+        File file = fileRepository.findById(fileId)
+                .orElseThrow(() -> new FileDownloadException(ResponseCode.FILE_STORE_ERROR));
+
+        return s3BucketUtil.loadFileAsResource(file.getStoreFileName(), file.getUploadFileName());
+    }
+
     // 파일 리스트 조회
     @Transactional(readOnly = true)
     public List<ListResponseDto> findByUserId(String id) {
@@ -50,14 +58,5 @@ public class FileService {
         return files.stream()
                 .map(file -> new ListResponseDto().toDto(file))
                 .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public Resource download(String fileId) {
-        File file = fileRepository.findById(fileId)
-                .orElseThrow(() -> new FileDownloadException(ResponseCode.FILE_STORE_ERROR));
-
-        String filePath = s3BucketUtil.getFullPath(file.getStoreFileName());
-        return s3BucketUtil.loadFileAsResource(filePath, file.getUploadFileName());
     }
 }

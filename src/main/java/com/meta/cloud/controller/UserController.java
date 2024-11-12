@@ -1,10 +1,7 @@
 package com.meta.cloud.controller;
 
-import com.meta.cloud.dto.user.JwtDto;
-import com.meta.cloud.dto.user.UserResponseDto;
+import com.meta.cloud.dto.user.*;
 import com.meta.cloud.util.api.ApiResponse;
-import com.meta.cloud.dto.user.JoinRequestDto;
-import com.meta.cloud.dto.user.LoginRequestDto;
 import com.meta.cloud.service.UserService;
 import com.meta.cloud.util.api.ResponseCode;
 import jakarta.validation.Valid;
@@ -35,8 +32,8 @@ public class UserController {
     }
 
     @GetMapping("/size")
-    public ApiResponse<Integer> findStorageById(Authentication authentication) {
-        return ApiResponse.success(userService.findStorageById(authentication.getName()), ResponseCode.USER_READ_SUCCESS.getMessage());
+    public ApiResponse<InfoResponseDto> userInfo(Authentication authentication) {
+        return ApiResponse.success(userService.userInfo(authentication.getName()), ResponseCode.USER_READ_SUCCESS.getMessage());
     }
 
     //Auth 테스트용
